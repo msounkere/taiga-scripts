@@ -13,8 +13,10 @@ function dropdb-if-needed {
 }
 
 if [ ! -e ~/.setup/postgresql ]; then
-    apt-install-if-needed postgresql-9.5 postgresql-contrib-9.5 \
-        postgresql-doc-9.5 postgresql-server-dev-9.5
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+    apt-install-if-needed postgresql-12 postgresql-contrib-12 \
+        postgresql-doc-12 postgresql-server-dev-12
 
     sudo -u postgres createuser --superuser $USER &> /dev/null
     sudo -u postgres createdb $USER &> /dev/null
